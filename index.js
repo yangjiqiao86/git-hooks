@@ -1,1 +1,4 @@
-module.exports = require('./lib/hooks');
+// module.exports = require('./lib/hooks');
+
+
+console.log('===== hello world! =====');
