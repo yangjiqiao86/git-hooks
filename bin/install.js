@@ -1,3 +1,7 @@
+/**
+ * Git-hooks
+ */
+
 'use strict';
 
 var fs = require('fs');
@@ -8,6 +12,29 @@ var chalk = require('chalk');
 var fsUtils = require("nodejs-fs-utils");
 var hooksDir = path.join(__dirname, '..');
 var projectDir = path.join(__dirname, '..', '..', '..');
+
+// Hooks Map
+// Git hook | Npm script
+var hooksMap = {
+  applypatchmsg: 'applypatch-msg',
+  commitmsg: 'commit-msg',
+  postapplypatch: 'post-applypatch',
+  postcheckout: 'post-checkout',
+  postcommit: 'post-commit',
+  postmerge: 'post-merge',
+  postreceive: 'post-receive',
+  postrewrite: 'post-rewrite',
+  postupdate: 'post-update',
+  preapplypatch: 'pre-applypatch',
+  preautogc: 'pre-auto-gc',
+  precommit: 'pre-commit',
+  prepush: 'pre-push',
+  prerebase: 'pre-rebase',
+  prereceive: 'pre-receive',
+  preparecommitmsg: 'prepare-commit-msg',
+  pushtocheckout: 'push-to-checkout',
+  update: 'update',
+};
 
 /**
  * 复制hooks目录到项目目录
@@ -33,26 +60,13 @@ function copyHooks() {
  */
 function addNpmScripts() {
   let pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
-
   pkg.scripts = pkg.scripts || {};
-  pkg.scripts.applypatchmsg = 'node ./hooks/applypatch-msg.js' + (pkg.scripts.applypatchmsg ? ' && ' + pkg.scripts.applypatchmsg : '');
-  pkg.scripts.commitmsg = 'node ./hooks/commit-msg.js' + (pkg.scripts.commitmsg ? ' && ' + pkg.scripts.commitmsg : '');
-  pkg.scripts.postapplypatch = 'node ./hooks/post-applypatch.js' + (pkg.scripts.postapplypatch ? ' && ' + pkg.scripts.postapplypatch : '');
-  pkg.scripts.postcheckout = 'node ./hooks/post-checkout.js' + (pkg.scripts.postcheckout ? ' && ' + pkg.scripts.postcheckout : '');
-  pkg.scripts.postcommit = 'node ./hooks/post-commit.js' + (pkg.scripts.postcommit ? ' && ' + pkg.scripts.postcommit : '');
-  pkg.scripts.postmerge = 'node ./hooks/post-merge.js' + (pkg.scripts.postmerge ? ' && ' + pkg.scripts.postmerge : '');
-  pkg.scripts.postreceive = 'node ./hooks/post-receive.js' + (pkg.scripts.postreceive ? ' && ' + pkg.scripts.postreceive : '');
-  pkg.scripts.postrewrite = 'node ./hooks/post-applypatch.js' + (pkg.scripts.postrewrite ? ' && ' + pkg.scripts.postrewrite : '');
-  pkg.scripts.postupdate = 'node ./hooks/post-applypatch.js' + (pkg.scripts.postupdate ? ' && ' + pkg.scripts.postupdate : '');
-  pkg.scripts.preapplypatch = 'node ./hooks/post-applypatch.js' + (pkg.scripts.preapplypatch ? ' && ' + pkg.scripts.preapplypatch : '');
-  pkg.scripts.preautogc = 'node ./hooks/post-applypatch.js' + (pkg.scripts.preautogc ? ' && ' + pkg.scripts.preautogc : '');
-  pkg.scripts.precommit = 'node ./hooks/post-applypatch.js' + (pkg.scripts.precommit ? ' && ' + pkg.scripts.precommit : '');
-  pkg.scripts.prepush = 'node ./hooks/post-applypatch.js' + (pkg.scripts.prepush ? ' && ' + pkg.scripts.prepush : '');
-  pkg.scripts.prerebase = 'node ./hooks/post-applypatch.js' + (pkg.scripts.prerebase ? ' && ' + pkg.scripts.prerebase : '');
-  pkg.scripts.prereceive = 'node ./hooks/post-applypatch.js' + (pkg.scripts.prereceive ? ' && ' + pkg.scripts.prereceive : '');
-  pkg.scripts.preparecommitmsg = 'node ./hooks/post-applypatch.js' + (pkg.scripts.preparecommitmsg ? ' && ' + pkg.scripts.preparecommitmsg : '');
-  pkg.scripts.pushtocheckout = 'node ./hooks/post-applypatch.js' + (pkg.scripts.pushtocheckout ? ' && ' + pkg.scripts.pushtocheckout : '');
-  pkg.scripts.update = 'node ./hooks/post-applypatch.js' + (pkg.scripts.update ? ' && ' + pkg.scripts.update : '');
+
+  for (let key in hooksMap) {
+    if (hooksMap.hasOwnProperty(key)) {
+      pkg.scripts[key] = 'node ./hooks/' + hooksMap[key] + '.js' + (pkg.scripts[key] ? ' && ' + pkg.scripts[key] : '');
+    }
+  }
 
   fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2));
 }
