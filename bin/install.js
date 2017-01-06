@@ -37,7 +37,7 @@ var hooksMap = {
 };
 
 /**
- * 复制hooks目录到项目目录
+ * 复制hooks目录至项目目录
  */
 function copyHooks() {
   let deferred = Q.defer();
@@ -60,29 +60,29 @@ function copyHooks() {
 function addNpmScripts() {
   let deferred = Q.defer();
 
-  fs.exists('package.json', function(exists) {
-    if (exists) {
-      let pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+  if (fs.existsSync('package.json')) {
+    let pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
 
-      pkg.scripts = pkg.scripts || {};
+    pkg.scripts = pkg.scripts || {};
 
-      for (let key in hooksMap) {
-        if (hooksMap.hasOwnProperty(key)) {
-          pkg.scripts[key] = 'node ./hooks/' + hooksMap[key] + '.js' + (pkg.scripts[key] ? ' && ' + pkg.scripts[key] : '');
-        }
+    for (let key in hooksMap) {
+      if (hooksMap.hasOwnProperty(key)) {
+        pkg.scripts[key] = 'node ./hooks/' + hooksMap[key] + '.js' + (pkg.scripts[key] ? ' && ' + pkg.scripts[key] : '');
       }
-
-      fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2));
-
-      deferred.resolve();
-    } else {
-      deferred.reject('Could not find package.json!');
     }
-  });
+
+    fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2));
+
+    deferred.resolve();
+  } else {
+    deferred.reject('Could not find package.json!');
+  }
 
   return deferred.promise;
 }
 
+// node ./node_modules/git-hooks/bin/install.js
+// git init && npm install https://github.com/yangjiqiao86/git-hooks.git\#v1.0.0 --force
 copyHooks()
   .then(addNpmScripts)
   .then(() => {
