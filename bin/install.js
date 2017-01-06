@@ -1,4 +1,3 @@
-// Run when package is installed
 // var fs = require('fs')
 // var path = require('path')
 // var isCI = require('is-ci')
@@ -17,5 +16,36 @@
 // husky.installFrom(huskyDir)
 
 
-console.log('===== __dirname: ' + __dirname + '=====');
-console.log('=====__filename: ' + __filename + '=====');
+// git init && npm install https://github.com/yangjiqiao86/git-hooks.git\#v1.0.0 --force
+
+
+
+
+'use strict';
+
+var fs = require('fs');
+var path = require('path');
+var fsUtils = require("nodejs-fs-utils");
+var hooksDir = path.join(__dirname, '../');
+var projectDir = path.join(__dirname, '../../../');
+
+// __dirname: /Users/liyongkai/Workspace/github.com/yangjiqiao86/git-hooks-test/node_modules/git-hooks/bin
+// __filename: /Users/liyongkai/Workspace/github.com/yangjiqiao86/git-hooks-test/node_modules/git-hooks/bin/install.js
+// console.log('__dirname: ' + __dirname + '');
+// console.log('__filename: ' + __filename + '');
+
+// hooksDir: /Users/liyongkai/Workspace/github.com/yangjiqiao86/git-hooks-test/node_modules/git-hooks/
+// projectDir: /Users/liyongkai/Workspace/github.com/yangjiqiao86/git-hooks-test/
+console.log('hooksDir: ' + hooksDir + '');
+console.log('projectDir: ' + projectDir + '');
+
+
+// copy file or folders
+fsUtils.copy(hooksDir + '/hooks', projectDir, function(err, cache) {
+  if (!err) {
+    console.log('Copied !');
+  } else {
+    console.error('Error', err)
+  }
+});
+
