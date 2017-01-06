@@ -1,0 +1,27 @@
+#!/bin/sh
+
+basepath=$(cd `dirname $0`; pwd)
+filename="pre-push"
+pathname="$basepath/../.git/hooks/$filename"
+
+cmd=''
+cmd=$cmd'#!/bin/sh'
+cmd=$cmd'\n\n'
+cmd=$cmd'success_num=$(node "./hooks/'$filename'.js" | grep "success" | wc -l) # 执行node返回控制台信息 & 正则匹配是否存在成功信息字段(约定控制台打印 success 字符串表示成功)'
+cmd=$cmd'\n\n'
+cmd=$cmd'if [ $success_num -gt 0 ]; then'
+cmd=$cmd'\n'
+cmd=$cmd'  exit 0 # 0表示正常退出，将会触发当前操作'
+cmd=$cmd'\n'
+cmd=$cmd'else'
+cmd=$cmd'\n'
+cmd=$cmd'  echo "'$filename' 运行失败"'
+cmd=$cmd'\n'
+cmd=$cmd'  exit 1 # 1表示异常退出，将不触发当前操作'
+cmd=$cmd'\n'
+cmd=$cmd'fi'
+
+echo $cmd > $pathname   # 输出命令行至文件
+chmod +x $pathname      # 添加可执行权限
+
+exit 0
