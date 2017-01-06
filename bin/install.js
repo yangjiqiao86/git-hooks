@@ -60,7 +60,7 @@ function copyHooks() {
 function addNpmScripts() {
   let deferred = Q.defer();
 
-  if (fs.existsSync('package.json')) {
+  if (fs.existsSync(path.join(projectDir, 'package.json'))) {
     let pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
     pkg.scripts = pkg.scripts || {};
 
