@@ -2,8 +2,7 @@
 var fs = require('fs')
 var path = require('path')
 var isCI = require('is-ci')
-var husky = require('../src/')
-var hooks = require('../src/hooks.json')
+var husky = require('husky')
 
 if (isCI) {
   console.log('\033[4;36m%s\033[0m', 'husky')
