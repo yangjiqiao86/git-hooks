@@ -62,7 +62,6 @@ function addNpmScripts() {
 
   if (fs.existsSync('package.json')) {
     let pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
-
     pkg.scripts = pkg.scripts || {};
 
     for (let key in hooksMap) {
@@ -72,7 +71,7 @@ function addNpmScripts() {
     }
 
     fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2));
-
+    console.log(chalk.cyan('Npm scripts added!'));
     deferred.resolve();
   } else {
     deferred.reject('Could not find package.json!');
