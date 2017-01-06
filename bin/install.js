@@ -59,9 +59,10 @@ function copyHooks() {
  */
 function addNpmScripts() {
   let deferred = Q.defer();
+  let projectPkg = path.join(projectDir, 'package.json');
 
-  if (fs.existsSync(path.join(projectDir, 'package.json'))) {
-    let pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+  if (fs.existsSync(projectPkg)) {
+    let pkg = JSON.parse(fs.readFileSync(projectPkg, 'utf8'));
     pkg.scripts = pkg.scripts || {};
 
     for (let key in hooksMap) {
@@ -70,7 +71,7 @@ function addNpmScripts() {
       }
     }
 
-    fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2));
+    fs.writeFileSync(projectPkg, JSON.stringify(pkg, null, 2));
     console.log(chalk.cyan('Npm scripts added!'));
     deferred.resolve();
   } else {
