@@ -22,7 +22,9 @@
   },
   "homepage": "https://github.com/yangjiqiao86/git-hooks#readme",
   "dependencies": {
+    "chalk": "^1.1.3",
     "husky": "^0.12.0",
-    "nodejs-fs-utils": "^1.0.26"
+    "nodejs-fs-utils": "^1.0.26",
+    "q": "^1.4.1"
   }
 }
