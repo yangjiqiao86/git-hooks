@@ -1,18 +1,14 @@
 {
   "name": "git-hooks",
-  "version": "1.0.2",
+  "version": "1.0.0",
   "description": "git hooks",
   "main": "index.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "start": "node ./bin/start.js",
-    "preinstall": "node ./bin/preinstall.js",
-    "install": "node ./bin/install.js",
-    "postinstall": "node ./bin/postinstall.js",
-    "uninstall": "node ./bin/uninstall.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "install": "node ./node_modules/husky/bin/install.js",
+    "uninstall": "node ./node_modules/husky/bin/uninstall.js"
   },
   "repository": {
     "type": "git",
