@@ -1,46 +1,27 @@
 {
-  "name": "husky",
-  "version": "0.12.0",
-  "description": "Prevents bad commit or push (git hooks, pre-commit/precommit, pre-push/prepush, post-merge/postmerge and all that stuff...)",
+  "name": "git-hooks",
+  "version": "1.0.0",
+  "description": "git hooks",
   "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
   "scripts": {
-    "test": "mocha",
     "install": "node ./bin/install.js",
-    "uninstall": "node ./bin/uninstall.js"
+    "uninstall": "node ./bin/uninstall.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/typicode/husky.git"
+    "url": "git+https://github.com/yangjiqiao86/git-hooks.git"
   },
-  "keywords": [
-    "git",
-    "hook",
-    "hooks",
-    "pre-commit",
-    "precommit",
-    "post-commit",
-    "postcommit",
-    "pre-push",
-    "prepush",
-    "post-merge",
-    "postmerge",
-    "test"
-  ],
-  "author": "Typicode <typicode@gmail.com>",
-  "license": "MIT",
+  "author": "",
+  "license": "ISC",
   "bugs": {
-    "url": "https://github.com/typicode/husky/issues"
+    "url": "https://github.com/yangjiqiao86/git-hooks/issues"
   },
-  "homepage": "https://github.com/typicode/husky",
+  "homepage": "https://github.com/yangjiqiao86/git-hooks#readme",
   "devDependencies": {
-    "expect": "^1.20.2",
-    "mocha": "^3.2.0",
-    "mock-fs": "^3.12.1",
-    "rimraf": "^2.2.8"
-  },
-  "dependencies": {
-    "find-parent-dir": "^0.3.0",
-    "is-ci": "^1.0.9",
-    "normalize-path": "^1.0.0"
+    "husky": "^0.12.0"
   }
 }
