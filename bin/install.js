@@ -44,10 +44,9 @@ function copyHooks() {
 
   fsUtils.copy(hooksDir + '/hooks', projectDir + '/hooks', function(error, cache) { // copy file or folders
     if (!error) {
-      console.log(chalk.green('Hooks copied success!'));
+      console.log(chalk.cyan('Hooks copied!'));
       deferred.resolve();
     } else {
-      console.log(chalk.red(error));
       deferred.reject(error);
     }
   });
@@ -59,20 +58,35 @@ function copyHooks() {
  * 添加Npm scripts
  */
 function addNpmScripts() {
-  let pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
-  pkg.scripts = pkg.scripts || {};
+  let deferred = Q.defer();
 
-  for (let key in hooksMap) {
-    if (hooksMap.hasOwnProperty(key)) {
-      pkg.scripts[key] = 'node ./hooks/' + hooksMap[key] + '.js' + (pkg.scripts[key] ? ' && ' + pkg.scripts[key] : '');
+  fsUtils.isEmpty('package.json', function (error, state) { // return state = true if folder is empty
+    if (!state) {
+      let pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+      pkg.scripts = pkg.scripts || {};
+
+      for (let key in hooksMap) {
+        if (hooksMap.hasOwnProperty(key)) {
+          pkg.scripts[key] = 'node ./hooks/' + hooksMap[key] + '.js' + (pkg.scripts[key] ? ' && ' + pkg.scripts[key] : '');
+        }
+      }
+
+      fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2));
+
+      deferred.resolve();
+    } else {
+      deferred.reject('Could not find package.json!');
     }
-  }
+  })
 
-  fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2));
+  return deferred.promise;
 }
 
 copyHooks()
   .then(addNpmScripts)
+  .then(() => {
+    console.log(chalk.green('Hooks install success!'));
+  })
   .catch((error) => {
-    // console.log(chalk.red(error));
+    console.log(chalk.red(error));
   });
