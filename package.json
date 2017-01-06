@@ -8,7 +8,9 @@
   },
   "scripts": {
     "start": "node ./bin/start.js",
+    "preinstall": "node ./bin/preinstall.js",
     "install": "node ./bin/install.js",
+    "postinstall": "node ./bin/postinstall.js",
     "uninstall": "node ./bin/uninstall.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
