@@ -1,14 +1,15 @@
 {
   "name": "git-hooks",
   "version": "1.0.0",
-  "description": "git hooks",
+  "description": "--- > git hooks",
   "main": "index.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
     "install": "node ./bin/install.js",
-    "uninstall": "node ./bin/uninstall.js"
+    "uninstall": "node ./bin/uninstall.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -20,7 +21,7 @@
     "url": "https://github.com/yangjiqiao86/git-hooks/issues"
   },
   "homepage": "https://github.com/yangjiqiao86/git-hooks#readme",
-  "devDependencies": {
+  "dependencies": {
     "husky": "^0.12.0"
   }
 }
