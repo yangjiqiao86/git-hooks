@@ -60,9 +60,10 @@ function copyHooks() {
 function addNpmScripts() {
   let deferred = Q.defer();
 
-  fsUtils.isEmpty('package.json', function (error, state) { // return state = true if folder is empty
-    if (!state) {
+  fs.exists('package.json', function(exists) {
+    if (exists) {
       let pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+
       pkg.scripts = pkg.scripts || {};
 
       for (let key in hooksMap) {
@@ -77,7 +78,7 @@ function addNpmScripts() {
     } else {
       deferred.reject('Could not find package.json!');
     }
-  })
+  });
 
   return deferred.promise;
 }
